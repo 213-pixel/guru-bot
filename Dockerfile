@@ -27,4 +27,4 @@ RUN chmod +x start.sh
 # Run the bot
 CMD ["./start.sh"]
 
-CMD ["python", "-m", "src.main"]
+CMD ["python", "src/main.py"]
