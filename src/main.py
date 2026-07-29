@@ -4,8 +4,8 @@ from aiogram.types import Update
 import uvicorn
 import os
 from dotenv import load_dotenv
-from src.bot import bot, dp
-from src.utils.logger import logger
+from bot import bot, dp
+from utils.logger import logger
 
 load_dotenv()
 
