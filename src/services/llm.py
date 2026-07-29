@@ -7,7 +7,7 @@ class LLMService:
     """Service buat interaksi dengan AI (Groq)"""
     
     def __init__(self):
-        self.api_key = os.getenv("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")
+        self.api_key = os.getenv("GROQ_API_KEY")
         if not self.api_key:
             logger.warning("GROQ_API_KEY not set! AI features will not work.")
             self.client = None
