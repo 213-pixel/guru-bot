@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI, Request, Response, BackgroundTasks # 1. Import BackgroundTasks
 from fastapi.responses import JSONResponse
 from aiogram.types import Update
 import uvicorn
@@ -15,21 +15,27 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# Helper function untuk memproses update di background
+async def process_update(update_data: dict):
+    try:
+        update = Update.model_validate(update_data, context={"bot": bot})
+        await dp.feed_update(bot, update)
+    except Exception as e:
+        logger.error(f"Error processing update: {e}")
+
 @app.post("/webhook")
-async def webhook(request: Request):
+async def webhook(request: Request, background_tasks: BackgroundTasks):
     """
     Endpoint untuk menerima update dari Telegram
     """
     try:
-        # Parse request body
+        # 1. Parse request body
         body = await request.json()
         
-        # Convert ke Update object
-        update = Update.model_validate(body, context={"bot": bot})
+        # 2. Lempar proses pemrosesan pesan ke Background Task
+        background_tasks.add_task(process_update, body)
         
-        # Feed ke dispatcher
-        await dp.feed_update(bot, update)
-        
+        # 3. Langsung kembalikan 200 OK ke Telegram dalam hitungan milidetik
         return JSONResponse(content={"status": "ok"})
         
     except Exception as e:
@@ -38,6 +44,8 @@ async def webhook(request: Request):
             status_code=500,
             content={"status": "error", "message": str(e)}
         )
+
+# ... (sisa kode main.py lainnya tetap sama)
 
 @app.get("/health")
 async def health_check():
