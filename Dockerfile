@@ -28,3 +28,4 @@ RUN chmod +x start.sh
 CMD ["./start.sh"]
 
 CMD ["python", "src/main.py"]
+ENV PYTHONPATH=/app
