@@ -59,7 +59,7 @@ async def root():
 
 async def on_startup():
     """Setup saat app mulai"""
-    from src.bot import set_commands
+    from bot import set_commands
     await set_commands()
     logger.info("Bot started successfully")
 
@@ -74,7 +74,7 @@ app.add_event_handler("shutdown", on_shutdown)
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))
     uvicorn.run(
-        "src.main:app",
+        "main:app",
         host="0.0.0.0",
         port=port,
         reload=True  # Set False di production
