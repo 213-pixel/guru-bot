@@ -3,7 +3,7 @@ from aiogram.types import BotCommand
 from aiogram.client.default import DefaultBotProperties
 import os
 from dotenv import load_dotenv
-from src.utils.logger import logger
+from utils.logger import logger
 
 # Load environment variables
 load_dotenv()
@@ -22,7 +22,7 @@ bot = Bot(
 dp = Dispatcher()
 
 # Import and register handlers
-from src.handlers import start, faq, ai_chat, admin
+from handlers import start, faq, ai_chat, admin
 
 dp.include_router(start.router)
 dp.include_router(faq.router)
